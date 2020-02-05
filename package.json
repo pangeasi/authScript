@@ -1,0 +1,25 @@
+{
+  "name": "auth-script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "start": "cd dist & node index.js",
+    "build": "tsc & cp -r putYourQRcodeHere dist/putYourQRcodeHere"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jimp": "^0.9.3",
+    "qrcode-reader": "^1.0.4",
+    "totp-generator": "0.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
