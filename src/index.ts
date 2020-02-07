@@ -3,6 +3,8 @@ import {read} from 'jimp'
 import {readdirSync, readFileSync} from 'fs'
 import * as path from 'path'
 import * as totp from "totp-generator";
+import * as fs from 'fs';
+const outputFolder = 'doc';
 
 const pathQR = (__dirname.split('src')[0] + path.normalize('/putYourQRcodeHere'))
 const qrImage = readdirSync(pathQR)
@@ -25,7 +27,6 @@ const resultQR = (): Promise<String> => {
                     resolve(value.result)
                 }
             }
-            
             qr.decode(img.bitmap)
         })
     })
@@ -35,11 +36,12 @@ const printTotp = async () => {
     if(!process.argv[2]) console.log('pasa tu pass como argumento, ejemplo: npm start [password]')
     const secret = (await resultQR()).split('&')[1].replace('secret=','')
     console.log(`${process.argv[2] || '[aqui irá tu pass] '}${totp(secret)}`)
+    return `${process.argv[2] || '[aqui irá tu pass] '}${totp(secret)}`;
 }
 
-printTotp()
-setInterval( ()=>{
-    printTotp()
+fs.writeFileSync(`${outputFolder}/password`, printTotp());
+setInterval(async ()=>{
+    const totp = await printTotp()
+    fs.writeFileSync(`${outputFolder}/password`, totp);
 }, 30000)
-
 
