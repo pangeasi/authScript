@@ -39,9 +39,15 @@ const printTotp = async () => {
     return `${process.argv[2] || '[aqui irá tu pass] '}${totp(secret)}`;
 }
 
-fs.writeFileSync(`${outputFolder}/password`, printTotp());
-setInterval(async ()=>{
+const writeFile = async () => {
     const totp = await printTotp()
-    fs.writeFileSync(`${outputFolder}/password`, totp);
-}, 30000)
+    fs.writeFileSync(`${outputFolder}/password`,  totp);
+}
 
+const main = async () => {
+    await writeFile()
+    setInterval(writeFile, 30000)
+}
+
+
+main()
